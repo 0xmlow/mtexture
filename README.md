@@ -5,6 +5,18 @@ Wrap your 3D assets in your 2D art. An MLow tool.
 Drop or pick a 3D model and a piece of art; ~M.Texture~ retextures every mesh with the art,
 shows a live preview, and writes a new `.glb` next to the original model.
 
+## Use it in the browser
+
+**https://0xmlow.github.io/mtexture/**: the same tool, nothing to install. Drop a model and
+your art; it wraps them and downloads the new `.glb`. Files never leave your computer.
+For a `.gltf`, drop its `.bin` and texture files in the same drop. Changing the projection,
+treatment or dials re-wraps the preview; hit SPIT IT OUT to download that version.
+HEIC art works in Safari; elsewhere, export it as JPG or PNG first.
+
+The web build lives in `docs/` (GitHub Pages serves it from there). It shares `wraplab.js`
+with the desktop app; `docs/renderer.js` is the desktop renderer with browser file handling,
+so a change to the wrap engine in `renderer.js` needs copying across.
+
 ## Run it
 
 **From source:**

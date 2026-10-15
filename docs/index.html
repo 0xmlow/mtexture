@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Wrap your 3D assets in your 2D art. An MLow tool, running in your browser.">
+<link rel="icon" href="assets/eye_truecolor.png">
+<title>~M.Texture~</title>
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --blue: #2962FF;
+    --cyan: #00E5FF;
+    --pink: #FF2E63;
+    --acid: #D7FF1F;
+    --cloud: #F0F4F8;
+    --slate: #8899AA;
+  }
+  @font-face {
+    font-family: 'Syne';
+    src: url('assets/fonts/Syne-latin.woff2') format('woff2');
+    font-weight: 400 800;
+    font-display: block;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: var(--ink);
+    color: var(--cloud);
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 22px;
+    border-bottom: 1px solid rgba(136, 153, 170, 0.25);
+    flex: 0 0 auto;
+  }
+  header img.logo { height: 34px; display: block; }
+  header .divider { width: 1px; height: 30px; background: rgba(136, 153, 170, 0.35); }
+  header h1 {
+    font-family: 'Syne', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 25px;
+    letter-spacing: 0.5px;
+    color: var(--cloud);
+  }
+  header h1 .tilde { color: var(--cyan); }
+  header .tagline {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--slate);
+    margin-left: auto;
+    margin-right: 14px;
+  }
+  header img.blossom { height: 26px; opacity: 0.9; }
+
+  main { flex: 1 1 auto; display: flex; min-height: 0; }
+
+  .panel {
+    width: 280px;
+    flex: 0 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-right: 1px solid rgba(136, 153, 170, 0.25);
+    overflow-y: auto;
+  }
+
+  .slot {
+    cursor: pointer;
+    border: 1.5px dashed rgba(136, 153, 170, 0.5);
+    border-radius: 10px;
+    padding: 18px 14px;
+    text-align: center;
+    min-height: 118px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .slot .kind {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--slate);
+  }
+  .slot .hint { font-size: 12px; color: var(--slate); line-height: 1.4; }
+  .slot .name {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 12px;
+    color: var(--cloud);
+    word-break: break-all;
+    line-height: 1.4;
+  }
+  .slot:hover { border-color: rgba(0, 229, 255, 0.7); }
+  .slot.dragover { border-color: var(--cyan); background: rgba(0, 229, 255, 0.06); }
+  .slot.filled { border-style: solid; border-color: var(--blue); }
+  .slot.filled .kind { color: var(--cyan); }
+  .slot img.thumb {
+    max-width: 100%;
+    max-height: 92px;
+    border-radius: 6px;
+    display: block;
+  }
+  .slot .badge {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink);
+    background: var(--acid);
+    border-radius: 3px;
+    padding: 2px 8px;
+  }
+
+  .modes { display: flex; gap: 8px; }
+  .modes.wrap5 { flex-wrap: wrap; }
+  .modes.wrap5 button { flex: 1 1 30%; }
+  .modes.treats button[data-treat="drape"].active,
+  .modes.treats button[data-treat="dissolve"].active { background: var(--pink); border-color: var(--pink); }
+  .dials { display: flex; flex-direction: column; gap: 9px; }
+  .dial { display: flex; align-items: center; gap: 10px;
+    font-family: Consolas, Menlo, monospace; font-size: 10px; letter-spacing: 2px; color: var(--slate); }
+  .dial span { width: 54px; }
+  .dial input { flex: 1; accent-color: var(--cyan); }
+  .dial b { width: 30px; text-align: right; color: var(--cloud); font-weight: 400; }
+  .tip { font-family: Consolas, Menlo, monospace; font-size: 10px; line-height: 1.6;
+    color: var(--acid); min-height: 26px; }
+  .modes button {
+    flex: 1;
+    font-family: Consolas, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 9px 0;
+    background: transparent;
+    color: var(--slate);
+    border: 1px solid rgba(136, 153, 170, 0.45);
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .modes button:hover { color: var(--cloud); }
+  .modes button.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+  }
+  .section-label {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--slate);
+  }
+
+  #exportBtn {
+    font-family: 'Syne', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 13px 0;
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+  }
+  #exportBtn:disabled { background: rgba(136, 153, 170, 0.25); color: var(--slate); cursor: default; }
+  #exportBtn:not(:disabled):hover { filter: brightness(1.1); }
+
+  #viewport { flex: 1 1 auto; position: relative; min-width: 0; }
+  #viewport canvas { display: block; }
+  #dropVeil {
+    position: absolute;
+    inset: 14px;
+    border: 2px dashed rgba(0, 229, 255, 0.9);
+    border-radius: 14px;
+    background: rgba(13, 13, 13, 0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--cyan);
+    pointer-events: none;
+    z-index: 5;
+  }
+  body.dragging #dropVeil { display: flex; }
+  #emptyState {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    pointer-events: none;
+  }
+  #emptyState img { height: 74px; opacity: 0.85; }
+  #emptyState .big {
+    font-family: 'Syne', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--cloud);
+  }
+  #emptyState .small {
+    font-family: Consolas, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--slate);
+  }
+
+  footer {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 22px;
+    border-top: 1px solid rgba(136, 153, 170, 0.25);
+    font-family: Consolas, Menlo, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.5px;
+    color: var(--slate);
+    min-height: 40px;
+  }
+  footer .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--slate); flex: 0 0 auto; }
+  footer.ok .dot { background: var(--cyan); }
+  footer.ok { color: var(--cloud); }
+  footer.err .dot { background: var(--pink); }
+  footer.err { color: var(--pink); }
+  footer .path { cursor: pointer; text-decoration: underline; text-decoration-color: rgba(0, 229, 255, 0.5); }
+  footer .path:hover { color: var(--cyan); }
+  footer a.path { color: inherit; }
+  @media (max-width: 760px) {
+    html, body { overflow: auto; height: auto; }
+    header .tagline { display: none; }
+    header { gap: 12px; padding: 12px 16px; }
+    header .divider, header img.blossom { display: none; }
+    header img.logo { height: 26px; }
+    header h1 { font-size: 20px; }
+    .panel { padding: 16px; }
+    main { flex-direction: column; }
+    .panel { width: auto; border-right: none; border-bottom: 1px solid rgba(136, 153, 170, 0.25); }
+    #viewport { height: 62vh; flex: 0 0 auto; }
+    footer { flex-wrap: wrap; word-break: break-all; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="assets/logo_white.png" alt="MLOW">
+    <div class="divider"></div>
+    <h1><span class="tilde">~</span>M.Texture<span class="tilde">~</span></h1>
+    <div class="tagline">WRAP YOUR WORLD IN YOUR ART</div>
+    <img class="blossom" src="assets/blossom_03_white.png" alt="">
+  </header>
+
+  <main>
+    <div class="panel">
+      <div class="section-label">INPUTS</div>
+      <div class="slot" id="modelSlot">
+        <div class="kind">3D MODEL</div>
+        <div class="hint" id="modelHint">drop a .glb / .gltf / .fbx<br>or click to browse<br><small>.gltf: drop its .bin + textures too</small></div>
+        <div class="name" id="modelName"></div>
+      </div>
+      <div class="slot" id="artSlot">
+        <div class="kind">2D ART</div>
+        <div class="hint" id="artHint">drop a .jpg / .png / .heic / .webp<br>or click to browse</div>
+        <img class="thumb" id="artThumb" style="display:none">
+        <div class="name" id="artName"></div>
+      </div>
+
+      <div class="section-label">PROJECTION</div>
+      <div class="modes wrap5">
+        <button data-mode="native" class="active">NATIVE</button>
+        <button data-mode="box">BOX</button>
+        <button data-mode="sphere">SPHERE</button>
+        <button data-mode="cylinder">CYLINDER</button>
+        <button data-mode="planar">PLANAR</button>
+      </div>
+
+      <div class="section-label">TREATMENT</div>
+      <div class="modes treats">
+        <button data-treat="skin" class="active">SKIN</button>
+        <button data-treat="drape">DRAPE</button>
+        <button data-treat="dissolve">DISSOLVE</button>
+      </div>
+
+      <div class="dials">
+        <label class="dial"><span>TILES</span>
+          <input type="range" id="tiles" min="1" max="16" step="1" value="4">
+          <b id="tilesVal">1.0</b></label>
+        <label class="dial"><span>AMOUNT</span>
+          <input type="range" id="amount" min="2" max="20" step="1" value="10">
+          <b id="amountVal">1.0</b></label>
+      </div>
+      <div class="tip" id="tip"></div>
+
+      <button id="exportBtn" disabled>~ SPIT IT OUT ~</button>
+    </div>
+
+    <div id="viewport">
+      <div id="emptyState">
+        <img src="assets/eye_truecolor.png" alt="">
+        <div class="big">drop a model + your art</div>
+        <div class="small">EVERYTHING STAYS ON YOUR COMPUTER. THE NEW ASSET DOWNLOADS.</div>
+      </div>
+      <div id="dropVeil">release to feed the machine</div>
+    </div>
+  </main>
+
+  <input type="file" id="modelPick" accept=".glb,.gltf,.fbx,.bin,.jpg,.jpeg,.png,.webp,.ktx2" multiple hidden>
+  <input type="file" id="artPick" accept=".jpg,.jpeg,.png,.heic,.heif,.webp,image/*" hidden>
+  <footer id="status"><div class="dot"></div><span id="statusText">WAITING FOR A MODEL AND A PIECE OF ART</span></footer>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="./renderer.js"></script>
+</body>
+</html>
