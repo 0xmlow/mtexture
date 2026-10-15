@@ -1,0 +1,24 @@
+{
+  "name": "m-texture",
+  "version": "1.0.0",
+  "description": "~M.Texture~ wrap 3D assets in 2D art",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.0.2",
+    "electron": "^43.4.1"
+  },
+  "build": {
+    "appId": "nyc.mlow.mtexture"
+  }
+}
