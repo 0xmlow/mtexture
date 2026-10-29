@@ -1,6 +1,6 @@
 {
   "name": "m-texture",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "~M.Texture~ wrap 3D assets in 2D art",
   "main": "main.js",
   "scripts": {

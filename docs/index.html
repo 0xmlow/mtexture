@@ -15,6 +15,8 @@
     --acid: #D7FF1F;
     --cloud: #F0F4F8;
     --slate: #8899AA;
+    --line: rgba(136, 153, 170, 0.25);
+    --mono: Consolas, Menlo, monospace;
   }
   @font-face {
     font-family: 'Syne';
@@ -34,231 +36,176 @@
   }
 
   header {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    padding: 16px 22px;
-    border-bottom: 1px solid rgba(136, 153, 170, 0.25);
-    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 18px;
+    padding: 14px 22px; border-bottom: 1px solid var(--line); flex: 0 0 auto;
   }
-  header img.logo { height: 34px; display: block; }
-  header .divider { width: 1px; height: 30px; background: rgba(136, 153, 170, 0.35); }
-  header h1 {
-    font-family: 'Syne', Arial, sans-serif;
-    font-weight: 800;
-    font-size: 25px;
-    letter-spacing: 0.5px;
-    color: var(--cloud);
-  }
+  header img.logo { height: 32px; display: block; }
+  header .divider { width: 1px; height: 28px; background: rgba(136, 153, 170, 0.35); }
+  header h1 { font-family: 'Syne', Arial, sans-serif; font-weight: 800; font-size: 24px; letter-spacing: 0.5px; }
   header h1 .tilde { color: var(--cyan); }
-  header .tagline {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--slate);
-    margin-left: auto;
-    margin-right: 14px;
-  }
+  header .ver { font-family: var(--mono); font-size: 10px; color: var(--ink); background: var(--acid); border-radius: 3px; padding: 2px 6px; letter-spacing: 1px; }
+  header .tagline { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; color: var(--slate); margin-left: auto; margin-right: 14px; }
   header img.blossom { height: 26px; opacity: 0.9; }
 
   main { flex: 1 1 auto; display: flex; min-height: 0; }
 
   .panel {
-    width: 280px;
-    flex: 0 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    border-right: 1px solid rgba(136, 153, 170, 0.25);
-    overflow-y: auto;
+    width: 300px; flex: 0 0 auto; padding: 16px 18px 20px;
+    display: flex; flex-direction: column; gap: 12px;
+    border-right: 1px solid var(--line); overflow-y: auto;
   }
+  .panel::-webkit-scrollbar { width: 6px; }
+  .panel::-webkit-scrollbar-thumb { background: rgba(136, 153, 170, 0.3); border-radius: 3px; }
 
   .slot {
-    cursor: pointer;
-    border: 1.5px dashed rgba(136, 153, 170, 0.5);
-    border-radius: 10px;
-    padding: 18px 14px;
-    text-align: center;
-    min-height: 118px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    cursor: pointer; border: 1.5px dashed rgba(136, 153, 170, 0.5); border-radius: 10px;
+    padding: 14px 12px; text-align: center; min-height: 92px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
     transition: border-color 0.15s, background 0.15s;
   }
-  .slot .kind {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--slate);
-  }
+  .slot .kind { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; color: var(--slate); }
   .slot .hint { font-size: 12px; color: var(--slate); line-height: 1.4; }
-  .slot .name {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 12px;
-    color: var(--cloud);
-    word-break: break-all;
-    line-height: 1.4;
-  }
+  .slot .name { font-family: var(--mono); font-size: 12px; color: var(--cloud); word-break: break-all; line-height: 1.4; }
   .slot:hover { border-color: rgba(0, 229, 255, 0.7); }
   .slot.dragover { border-color: var(--cyan); background: rgba(0, 229, 255, 0.06); }
   .slot.filled { border-style: solid; border-color: var(--blue); }
   .slot.filled .kind { color: var(--cyan); }
-  .slot img.thumb {
-    max-width: 100%;
-    max-height: 92px;
-    border-radius: 6px;
-    display: block;
-  }
-  .slot .badge {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--ink);
-    background: var(--acid);
-    border-radius: 3px;
-    padding: 2px 8px;
-  }
 
-  .modes { display: flex; gap: 8px; }
-  .modes.wrap5 { flex-wrap: wrap; }
-  .modes.wrap5 button { flex: 1 1 30%; }
-  .modes.treats button[data-treat="drape"].active,
-  .modes.treats button[data-treat="dissolve"].active { background: var(--pink); border-color: var(--pink); }
-  .dials { display: flex; flex-direction: column; gap: 9px; }
-  .dial { display: flex; align-items: center; gap: 10px;
-    font-family: Consolas, Menlo, monospace; font-size: 10px; letter-spacing: 2px; color: var(--slate); }
-  .dial span { width: 54px; }
-  .dial input { flex: 1; accent-color: var(--cyan); }
-  .dial b { width: 30px; text-align: right; color: var(--cloud); font-weight: 400; }
-  .tip { font-family: Consolas, Menlo, monospace; font-size: 10px; line-height: 1.6;
-    color: var(--acid); min-height: 26px; }
-  .modes button {
-    flex: 1;
-    font-family: Consolas, Menlo, monospace;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    padding: 9px 0;
-    background: transparent;
-    color: var(--slate);
-    border: 1px solid rgba(136, 153, 170, 0.45);
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  .modes button:hover { color: var(--cloud); }
-  .modes button.active {
-    background: var(--blue);
-    border-color: var(--blue);
-    color: #fff;
-  }
-  .section-label {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--slate);
-  }
+  .tray { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tray:empty { display: none; }
+  .tray .t { position: relative; width: 58px; height: 58px; border-radius: 6px; overflow: hidden; cursor: pointer;
+    border: 2px solid transparent; background: #1a1d22; }
+  .tray .t img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tray .t.active { border-color: var(--cyan); }
+  .tray .t .n { position: absolute; left: 3px; top: 2px; font-family: var(--mono); font-size: 10px; color: #fff;
+    text-shadow: 0 0 3px #000, 0 0 3px #000; }
+  .tray .t .x { position: absolute; right: 2px; top: 1px; font-size: 13px; line-height: 1; color: #fff;
+    text-shadow: 0 0 3px #000; opacity: 0; }
+  .tray .t:hover .x { opacity: 1; }
 
+  .section-label, summary { font-family: var(--mono); font-size: 10px; letter-spacing: 3px; color: var(--slate); }
+  details { border-top: 1px solid var(--line); padding-top: 10px; }
+  details > div { display: flex; flex-direction: column; gap: 9px; margin-top: 10px; }
+  summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--cyan); }
+  details[open] summary::after { content: '–'; }
+  summary:hover { color: var(--cloud); }
+
+  .modes { display: flex; gap: 6px; flex-wrap: wrap; }
+  .modes button, .btn {
+    flex: 1 1 0; min-width: 0; font-family: var(--mono); font-size: 10.5px; letter-spacing: 1.2px;
+    padding: 8px 0; background: transparent; color: var(--slate);
+    border: 1px solid rgba(136, 153, 170, 0.45); border-radius: 6px; cursor: pointer; white-space: nowrap;
+  }
+  .modes.g4 button { flex: 1 1 22%; }
+  .modes.g3 button { flex: 1 1 30%; }
+  .modes button:hover, .btn:hover { color: var(--cloud); }
+  .modes button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .modes button[data-k="treatment"].active:not([data-v="skin"]) { background: var(--pink); border-color: var(--pink); }
+  .modes button .new { color: var(--acid); }
+  .modes button.active .new { color: var(--acid); }
+  .sub { display: none; }
+  .sub.show { display: flex; }
+
+  .dial { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--slate); }
+  .dial span { width: 58px; flex: 0 0 auto; }
+  .dial input { flex: 1; min-width: 0; accent-color: var(--cyan); }
+  .dial b { width: 38px; text-align: right; color: var(--cloud); font-weight: 400; }
+  .check { display: flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; color: var(--slate); cursor: pointer; }
+  .check input { accent-color: var(--cyan); }
+  .check:hover { color: var(--cloud); }
+  .why { font-size: 11px; color: var(--slate); line-height: 1.45; }
+  .reset { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; color: var(--cyan); cursor: pointer; align-self: flex-end; }
+
+  .tip { font-family: var(--mono); font-size: 10px; line-height: 1.6; color: var(--acid); min-height: 16px; }
+  .tip:empty { display: none; }
+  .actions { display: flex; gap: 8px; }
   #exportBtn {
-    font-family: 'Syne', Arial, sans-serif;
-    font-weight: 800;
-    font-size: 15px;
-    padding: 13px 0;
-    background: var(--pink);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    letter-spacing: 1px;
+    flex: 1; font-family: 'Syne', Arial, sans-serif; font-weight: 800; font-size: 15px; padding: 13px 0;
+    background: var(--pink); color: #fff; border: none; border-radius: 8px; cursor: pointer; letter-spacing: 1px;
   }
-  #exportBtn:disabled { background: rgba(136, 153, 170, 0.25); color: var(--slate); cursor: default; }
+  #exportBtn:disabled, #shotBtn:disabled { background: rgba(136, 153, 170, 0.25); color: var(--slate); cursor: default; }
   #exportBtn:not(:disabled):hover { filter: brightness(1.1); }
+  #shotBtn { flex: 0 0 auto; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(136, 153, 170, 0.45);
+    background: transparent; color: var(--cloud); font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; cursor: pointer; }
 
-  #viewport { flex: 1 1 auto; position: relative; min-width: 0; }
+  #viewport {
+    flex: 1 1 auto; position: relative; min-width: 0;
+    background: radial-gradient(ellipse at 50% 42%, #1d2330 0%, #121519 55%, #0b0c0e 100%);
+  }
   #viewport canvas { display: block; }
   #dropVeil {
-    position: absolute;
-    inset: 14px;
-    border: 2px dashed rgba(0, 229, 255, 0.9);
-    border-radius: 14px;
-    background: rgba(13, 13, 13, 0.72);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Syne', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    color: var(--cyan);
-    pointer-events: none;
-    z-index: 5;
+    position: absolute; inset: 14px; border: 2px dashed rgba(0, 229, 255, 0.9); border-radius: 14px;
+    background: rgba(13, 13, 13, 0.72); display: none; align-items: center; justify-content: center;
+    font-family: 'Syne', Arial, sans-serif; font-weight: 700; font-size: 22px; color: var(--cyan);
+    pointer-events: none; z-index: 5;
   }
   body.dragging #dropVeil { display: flex; }
-  #emptyState {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    pointer-events: none;
-  }
+  #emptyState { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; pointer-events: none; }
   #emptyState img { height: 74px; opacity: 0.85; }
-  #emptyState .big {
-    font-family: 'Syne', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    color: var(--cloud);
-  }
-  #emptyState .small {
-    font-family: Consolas, Menlo, monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: var(--slate);
-  }
+  #emptyState .big { font-family: 'Syne', Arial, sans-serif; font-weight: 700; font-size: 22px; }
+  #emptyState .small { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--slate); text-align: center; line-height: 1.8; }
+
+  .hud { position: absolute; left: 14px; top: 14px; display: flex; gap: 6px; z-index: 3; }
+  .hud .btn { flex: 0 0 auto; padding: 6px 10px; background: rgba(13, 13, 13, 0.6); backdrop-filter: blur(6px); }
+  .hud .btn.on { color: var(--cyan); border-color: rgba(0, 229, 255, 0.7); }
+  .hud .btn.hold.on { color: var(--acid); border-color: var(--acid); }
+  #stats { position: absolute; left: 14px; bottom: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 1.2px; color: var(--slate); z-index: 3; pointer-events: none; }
+  #partHint { position: absolute; right: 14px; bottom: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 1.2px; color: var(--slate); z-index: 3; pointer-events: none; text-align: right; }
+  #toast { position: absolute; left: 50%; top: 16px; transform: translateX(-50%); padding: 7px 14px; border-radius: 6px;
+    background: rgba(13, 13, 13, 0.8); border: 1px solid var(--blue); font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+    opacity: 0; transition: opacity 0.25s; pointer-events: none; z-index: 4; white-space: nowrap; }
+  #toast.show { opacity: 1; }
 
   footer {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 22px;
-    border-top: 1px solid rgba(136, 153, 170, 0.25);
-    font-family: Consolas, Menlo, monospace;
-    font-size: 11.5px;
-    letter-spacing: 0.5px;
-    color: var(--slate);
-    min-height: 40px;
+    flex: 0 0 auto; display: flex; align-items: center; gap: 10px; padding: 10px 22px;
+    border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.5px;
+    color: var(--slate); min-height: 38px;
   }
   footer .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--slate); flex: 0 0 auto; }
   footer.ok .dot { background: var(--cyan); }
   footer.ok { color: var(--cloud); }
+  footer.busy .dot { background: var(--acid); }
   footer.err .dot { background: var(--pink); }
   footer.err { color: var(--pink); }
-  footer .path { cursor: pointer; text-decoration: underline; text-decoration-color: rgba(0, 229, 255, 0.5); }
+  footer .path { cursor: pointer; text-decoration: underline; text-decoration-color: rgba(0, 229, 255, 0.5); color: inherit; }
   footer .path:hover { color: var(--cyan); }
-  footer a.path { color: inherit; }
+  body.web .desk { display: none; }
+
   @media (max-width: 760px) {
     html, body { overflow: auto; height: auto; }
-    header .tagline { display: none; }
+    header .tagline, header .divider, header img.blossom { display: none; }
     header { gap: 12px; padding: 12px 16px; }
-    header .divider, header img.blossom { display: none; }
     header img.logo { height: 26px; }
     header h1 { font-size: 20px; }
-    .panel { padding: 16px; }
-    main { flex-direction: column; }
-    .panel { width: auto; border-right: none; border-bottom: 1px solid rgba(136, 153, 170, 0.25); }
+    main { flex-direction: column-reverse; }
+    .panel { width: auto; border-right: none; border-top: 1px solid var(--line); padding: 16px; overflow: visible; }
     #viewport { height: 62vh; flex: 0 0 auto; }
     footer { flex-wrap: wrap; word-break: break-all; }
+    #partHint { display: none; }
   }
 </style>
+<script>
+  // One page for the browser and the desktop app. The desktop app reads three from
+  // its own node_modules (works offline); the browser reads the same version from a CDN.
+  (function () {
+    var desk = !!(window.process && window.process.versions && window.process.versions.electron);
+    var base = desk ? '../node_modules/three/' : 'https://cdn.jsdelivr.net/npm/three@0.185.1/';
+    var map = document.createElement('script');
+    map.type = 'importmap';
+    map.textContent = JSON.stringify({ imports: { 'three': base + 'build/three.module.js', 'three/addons/': base + 'examples/jsm/' } });
+    document.currentScript.after(map);
+    window.MT_THREE_BASE = base;
+  })();
+</script>
 </head>
 <body>
   <header>
     <img class="logo" src="assets/logo_white.png" alt="MLOW">
     <div class="divider"></div>
     <h1><span class="tilde">~</span>M.Texture<span class="tilde">~</span></h1>
+    <span class="ver">v3</span>
     <div class="tagline">WRAP YOUR WORLD IN YOUR ART</div>
     <img class="blossom" src="assets/blossom_03_white.png" alt="">
   </header>
@@ -273,62 +220,125 @@
       </div>
       <div class="slot" id="artSlot">
         <div class="kind">2D ART</div>
-        <div class="hint" id="artHint">drop a .jpg / .png / .heic / .webp<br>or click to browse</div>
-        <img class="thumb" id="artThumb" style="display:none">
-        <div class="name" id="artName"></div>
+        <div class="hint" id="artHint">drop a .jpg / .png / .heic / .webp<br>or click to browse<br><small>drop more than one to dress parts differently</small></div>
       </div>
+      <div class="tray" id="artTray"></div>
 
       <div class="section-label">PROJECTION</div>
-      <div class="modes wrap5">
-        <button data-mode="native" class="active">NATIVE</button>
-        <button data-mode="box">BOX</button>
-        <button data-mode="sphere">SPHERE</button>
-        <button data-mode="cylinder">CYLINDER</button>
-        <button data-mode="planar">PLANAR</button>
+      <div class="modes g4" data-group="mode">
+        <button data-k="mode" data-v="native" class="active" title="the model's own UV layout">NATIVE</button>
+        <button data-k="mode" data-v="box" title="six sides, axes chosen by region">BOX</button>
+        <button data-k="mode" data-v="triplanar" title="three sides blended, baked into the model's own UVs">TRI<span class="new">★</span></button>
+        <button data-k="mode" data-v="cylinder" title="a label round the vertical axis">CYL</button>
+        <button data-k="mode" data-v="sphere" title="a globe">SPHERE</button>
+        <button data-k="mode" data-v="planar" title="one flat projection: the whole painting once">PLANAR</button>
+        <button data-k="mode" data-v="view" title="a projector at the camera">VIEW<span class="new">★</span></button>
+      </div>
+      <div class="modes g4 sub" id="axisRow" data-group="axis">
+        <button data-k="axis" data-v="auto" class="active">AUTO</button>
+        <button data-k="axis" data-v="z">FRONT</button>
+        <button data-k="axis" data-v="x">SIDE</button>
+        <button data-k="axis" data-v="y">TOP</button>
+      </div>
+      <div class="modes sub" id="aimRow">
+        <button id="aimBtn" title="project the painting from where the camera is now">◎ AIM FROM HERE</button>
       </div>
 
       <div class="section-label">TREATMENT</div>
-      <div class="modes treats">
-        <button data-treat="skin" class="active">SKIN</button>
-        <button data-treat="drape">DRAPE</button>
-        <button data-treat="dissolve">DISSOLVE</button>
+      <div class="modes g3" data-group="treatment">
+        <button data-k="treatment" data-v="skin" class="active">SKIN</button>
+        <button data-k="treatment" data-v="drape">DRAPE</button>
+        <button data-k="treatment" data-v="dissolve">DISSOLVE</button>
       </div>
+      <label class="dial"><span>AMOUNT</span><input type="range" id="amount" min="2" max="20" step="1" value="10"><b id="amountVal">1.0</b></label>
 
-      <div class="dials">
-        <label class="dial"><span>TILES</span>
-          <input type="range" id="tiles" min="1" max="16" step="1" value="4">
-          <b id="tilesVal">1.0</b></label>
-        <label class="dial"><span>AMOUNT</span>
-          <input type="range" id="amount" min="2" max="20" step="1" value="10">
-          <b id="amountVal">1.0</b></label>
-      </div>
+      <details open>
+        <summary>PLACEMENT</summary>
+        <div>
+          <div class="modes" data-group="fit">
+            <button data-k="fit" data-v="true" class="active" title="the painting keeps its proportions">TRUE PROPORTIONS</button>
+            <button data-k="fit" data-v="stretch" title="the painting stretches to fit (v2 behaviour)">STRETCH</button>
+          </div>
+          <label class="dial"><span>TILES</span><input type="range" id="tiles" min="1" max="16" step="1" value="4"><b id="tilesVal">1.0</b></label>
+          <label class="dial"><span>TURN</span><input type="range" id="rotate" min="-180" max="180" step="5" value="0"><b id="rotateVal">0°</b></label>
+          <label class="dial"><span>SHIFT ↔</span><input type="range" id="offsetU" min="-50" max="50" step="1" value="0"><b id="offsetUVal">0.00</b></label>
+          <label class="dial"><span>SHIFT ↕</span><input type="range" id="offsetV" min="-50" max="50" step="1" value="0"><b id="offsetVVal">0.00</b></label>
+          <span class="reset" id="placeReset">RESET</span>
+        </div>
+      </details>
+
+      <details open>
+        <summary>SURFACE</summary>
+        <div>
+          <div class="modes g4" data-group="finish">
+            <button data-k="finish" data-v="auto" class="active" title="satin, or fabric when draped">AUTO</button>
+            <button data-k="finish" data-v="matte">MATTE</button>
+            <button data-k="finish" data-v="satin">SATIN</button>
+            <button data-k="finish" data-v="gloss" title="clearcoat lacquer">GLOSS</button>
+            <button data-k="finish" data-v="metal">METAL</button>
+            <button data-k="finish" data-v="fabric" title="sheen, like cloth">FABRIC</button>
+            <button data-k="finish" data-v="original" title="the model's own roughness and metal">AS IS</button>
+          </div>
+          <label class="dial"><span>IMPASTO</span><input type="range" id="impasto" min="0" max="10" step="1" value="0"><b id="impastoVal">0.0</b></label>
+          <label class="check"><input type="checkbox" id="keep"> KEEP ORIGINAL RELIEF MAPS</label>
+        </div>
+      </details>
+
+      <details>
+        <summary>BAKE</summary>
+        <div>
+          <label class="check"><input type="checkbox" id="bake"> BAKE INTO THE MODEL'S OWN UVs</label>
+          <div class="why">Paints the projection into the model's existing UV layout on the GPU. The mesh stays whole, its relief maps still line up, and the art can be mixed with the original surface. TRI always bakes.</div>
+          <div class="modes g3" data-group="blend">
+            <button data-k="blend" data-v="replace" class="active">REPLACE</button>
+            <button data-k="blend" data-v="multiply" title="the art soaks into the original surface">STAIN</button>
+            <button data-k="blend" data-v="overlay">OVERLAY</button>
+          </div>
+          <label class="dial"><span>MIX</span><input type="range" id="mix" min="0" max="10" step="1" value="10"><b id="mixVal">1.0</b></label>
+        </div>
+      </details>
+
+      <details>
+        <summary>EXPORT</summary>
+        <div>
+          <div class="modes g3" data-group="size">
+            <button data-k="size" data-v="1024">1K</button>
+            <button data-k="size" data-v="2048" class="active">2K</button>
+            <button data-k="size" data-v="4096">4K</button>
+          </div>
+          <label class="check"><input type="checkbox" id="normalize"> NORMALIZE: 1 M, ON THE FLOOR, CENTRED</label>
+          <label class="check desk"><input type="checkbox" id="autosave" checked> SAVE EVERY CHANGE NEXT TO THE MODEL</label>
+        </div>
+      </details>
+
       <div class="tip" id="tip"></div>
-
-      <button id="exportBtn" disabled>~ SPIT IT OUT ~</button>
+      <div class="actions">
+        <button id="exportBtn" disabled>~ SPIT IT OUT ~</button>
+        <button id="shotBtn" disabled title="a transparent PNG of the view">PNG</button>
+      </div>
     </div>
 
     <div id="viewport">
+      <div class="hud">
+        <button class="btn on" id="spinBtn" title="turntable">⟳ SPIN</button>
+        <button class="btn hold" id="compareBtn" title="hold (or hold SPACE) to see the model as it came">◐ BEFORE</button>
+      </div>
+      <div id="toast"></div>
+      <div id="stats"></div>
+      <div id="partHint"></div>
       <div id="emptyState">
         <img src="assets/eye_truecolor.png" alt="">
         <div class="big">drop a model + your art</div>
-        <div class="small">EVERYTHING STAYS ON YOUR COMPUTER. THE NEW ASSET DOWNLOADS.</div>
+        <div class="small" id="emptySmall">EVERYTHING STAYS ON YOUR COMPUTER. THE NEW ASSET DOWNLOADS.</div>
       </div>
       <div id="dropVeil">release to feed the machine</div>
     </div>
   </main>
 
   <input type="file" id="modelPick" accept=".glb,.gltf,.fbx,.bin,.jpg,.jpeg,.png,.webp,.ktx2" multiple hidden>
-  <input type="file" id="artPick" accept=".jpg,.jpeg,.png,.heic,.heif,.webp,image/*" hidden>
+  <input type="file" id="artPick" accept=".jpg,.jpeg,.png,.heic,.heif,.webp,image/*" multiple hidden>
   <footer id="status"><div class="dot"></div><span id="statusText">WAITING FOR A MODEL AND A PIECE OF ART</span></footer>
 
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
-    }
-  }
-  </script>
-  <script type="module" src="./renderer.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

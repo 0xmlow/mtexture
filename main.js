@@ -18,7 +18,8 @@ function createWindow() {
     webPreferences: { nodeIntegration: true, contextIsolation: false },
   });
   win.setMenuBarVisibility(false);
-  win.loadFile('index.html');
+  // one page for the browser and the desktop: GitHub Pages serves docs/ as is
+  win.loadFile(path.join(__dirname, 'docs', 'index.html'));
 
   if (BATCH) {
     // one process, many wraps — spawning Electron per asset costs more in startup
@@ -41,7 +42,9 @@ function createWindow() {
   if (TEST) {
     const [modelPath, artPath, mode, treatment] = process.argv.slice(testIdx + 1).filter(a => !a.startsWith('-'));
     win.webContents.once('did-finish-load', () => {
-      win.webContents.send('test-load', { modelPath, artPath, mode, treatment });
+      // MTEXTURE_OPTS: any batch-job fields as JSON, e.g. '{"bake":true,"finish":"gloss"}'
+      const opts = process.env.MTEXTURE_OPTS ? JSON.parse(process.env.MTEXTURE_OPTS) : {};
+      win.webContents.send('test-load', { modelPath, artPath, mode, treatment, opts });
     });
     ipcMain.on('test-done', async (e, outPath) => {
       await new Promise(r => setTimeout(r, 1200));
@@ -68,10 +71,10 @@ ipcMain.handle('pick', async (e, kind) => {
   const win = BrowserWindow.fromWebContents(e.sender);
   const { canceled, filePaths } = await dialog.showOpenDialog(win, {
     title: kind === 'model' ? 'Choose a 3D model' : 'Choose your art',
-    properties: ['openFile'],
+    properties: kind === 'model' ? ['openFile'] : ['openFile', 'multiSelections'],
     filters,
   });
-  return canceled ? null : filePaths[0];
+  return canceled ? null : filePaths;
 });
 
 app.whenReady().then(createWindow);
